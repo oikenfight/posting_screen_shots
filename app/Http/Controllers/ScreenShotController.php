@@ -37,7 +37,7 @@ final class ScreenShotController extends Controller
         }
 
         return view('index', [
-            'dates' => $dates,
+            'dates' => array_reverse($dates),
         ]);
     }
 
@@ -65,7 +65,7 @@ final class ScreenShotController extends Controller
 
         return view('list', [
             'date' => $date,
-            'images' => $images,
+            'images' => array_reverse($images),
         ]);
     }
 
