@@ -58,11 +58,16 @@
             }
         },
         created() {
-            console.log(this.$route.params.date)
             axios.get('/api/list/' + this.date)
                 .then(response => {
                     this.images = response.data.images
                 })
+
+            Echo.channel('upload.screen.shot')
+                .listen('.upload.screen.shot.event', (e) => {
+                    console.log(e.filename + ' is uploaded.')
+                    this.images.unshift(e.filename)
+                });
         },
         methods: {
             getSrc(image) {

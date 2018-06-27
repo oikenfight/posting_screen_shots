@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\UploadScreenShot;
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Http\Request;
@@ -117,6 +118,9 @@ final class HomeController extends Controller
             \Log::debug($request);
             return 400;
         }
+
+        // Websocket で upload された image をブラウザに表示
+        event(new UploadScreenShot(str_replace('.png', '', $filename)));
 
         return 200;
     }
