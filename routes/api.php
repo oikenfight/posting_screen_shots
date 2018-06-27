@@ -35,6 +35,6 @@ Route::group(['middleware' => ['api']], function () {
     
     Route::post('/upload', [
         'uses' => 'Api\HomeController@upload',
-        'as' => 'screen_shot',
+        'as' => 'api.upload',
     ]);
 });
