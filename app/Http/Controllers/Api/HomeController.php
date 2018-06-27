@@ -1,8 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Events\UploadScreenShot;
+use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Session\Store;
@@ -14,12 +16,12 @@ use Symfony\Component\HttpFoundation\Exception\RequestExceptionInterface;
  *
  * @package App\Http\Controllers
  */
-final class ScreenShotController extends Controller
+final class HomeController extends Controller
 {
     const SCREEN_SHOTS_PREFIX = 'public/';
 
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return array
      */
     public function index()
     {
@@ -36,14 +38,14 @@ final class ScreenShotController extends Controller
             $dates[] = str_replace(self::SCREEN_SHOTS_PREFIX, '', $path);
         }
 
-        return view('index', [
-            'dates' => $dates,
-        ]);
+        return [
+            'dates' => array_reverse($dates),
+        ];
     }
 
     /**
      * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return array
      */
     public function list(Request $request)
     {
@@ -63,15 +65,14 @@ final class ScreenShotController extends Controller
             $images[] = str_replace('.png', '', $image);
         }
 
-        return view('list', [
-            'date' => $date,
-            'images' => $images,
-        ]);
+        return [
+            'images' => array_reverse($images),
+        ];
     }
 
     /**
      * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return array
      */
     public function show(Request $request)
     {
@@ -83,9 +84,9 @@ final class ScreenShotController extends Controller
             $imagePath = '';
         }
 
-        return view('show', [
+        return [
             'imagePath' => $imagePath,
-        ]);
+        ];
     }
 
     /**
@@ -117,6 +118,9 @@ final class ScreenShotController extends Controller
             \Log::debug($request);
             return 400;
         }
+
+        // Websocket で upload された image をブラウザに表示
+        event(new UploadScreenShot(str_replace('.png', '', $filename)));
 
         return 200;
     }

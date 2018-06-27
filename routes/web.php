@@ -13,18 +13,8 @@
 
 Route::group(['middleware' => ['web']], function () {
     Route::get('/', [
-        'uses' => 'ScreenShotController@index',
-        'as' => 'index',
-    ]);
-
-    Route::get('/list/{date}', [
-        'uses' => 'ScreenShotController@list',
-        'as' => 'list',
-    ]);
-
-    Route::get('/show/{image}', [
-        'uses' => 'ScreenShotController@show',
-        'as' => 'show',
+        'uses' => 'HomeController@index',
+        'as' => 'home',
     ]);
 });
 
