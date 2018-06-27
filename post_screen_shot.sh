@@ -40,7 +40,7 @@ do
 
     # remove image from screen_shot directory and storage
     adb shell rm ${screen_shot_path}
-#    rm ${tmp_image_path}
+    rm ${tmp_image_path}
     echo "remove the image"
 
     echo "wait 3 second"

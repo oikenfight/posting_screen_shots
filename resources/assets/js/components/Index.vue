@@ -21,7 +21,9 @@
                 <!-- コンテンツ -->
                 <div>
                     <ul v-for="date in dates">
-                        <router-link :to="{ name: 'list', params: {date: date} }">{{ date }}</router-link>
+                        <li>
+                            <router-link :to="{ name: 'list', params: {date: date} }">{{ date }}</router-link>
+                        </li>
                     </ul>
                 </div>
             </div>
